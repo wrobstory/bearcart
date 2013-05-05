@@ -1,0 +1,39 @@
+<!doctype>
+<head>
+  <link rel="stylesheet" href="rickshaw.min.css">
+	<script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.1/jquery.min.js"></script>
+	<script src="rickshaw.js"></script>
+
+<style>
+{{css}}
+</style>
+</head>
+<body>
+
+	<div id="chart_container">
+        <div id="y_axis"></div>
+        <div id="chart"></div>
+  </div>
+
+
+<script>
+
+{{palette}}
+
+d3.json('{{ data_path }}', function(error, json) {
+
+{{graph}}
+
+{{x_axis}}
+
+{{y_axis}}
+
+graph.render();
+
+});
+
+
+</script>
+
+</body>
