@@ -25,7 +25,10 @@ for ticker in ['AAPL', 'GOOG', 'XOM', 'MSFT', 'INTC', 'YHOO']:
 price = pd.DataFrame({tic: data['Adj Close']
                       for tic, data in all_data.iteritems()})
 
-vis = bearcart.Chart(price, type='area')
+df = pd.concat([price['AAPL'], price['GOOG']], axis=1)[:100]
+
+vis = bearcart.Chart(df, type='scatterplot', colors={'AAPL': '#1d4e69', 
+                                                     'GOOG': '#3b98ca' })
+
 vis.create_chart(html_path=html_path, data_path=data_path,
                  js_path=js_path, css_path=css_path)
-

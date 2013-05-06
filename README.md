@@ -60,7 +60,7 @@ vis = bearcart.Chart(price, type='area')
 ```
 ![Area](http://farm9.staticflickr.com/8271/8712121307_5204f670ea_z.jpg)
 
-Interactive version [here]. Finally, let's make a scatterplot with some custom colors: 
+Interactive version [here](http://bl.ocks.org/wrobstory/5523345). Finally, let's make a scatterplot with some custom colors: 
 ```python
 df = pd.concat([price['AAPL'], price['GOOG']], axis=1)[:100]
 
@@ -69,7 +69,7 @@ vis = bearcart.Chart(df, type='scatterplot', colors={'AAPL': '#1d4e69',
 ```
 ![Scatter](http://farm9.staticflickr.com/8140/8712121243_4a643185d8_z.jpg)
 
-Interactive example [here].
+Interactive example [here](http://bl.ocks.org/wrobstory/5523361).
 
 If you don't want some of the chart features, like the legend, hover, x-axis, etc, you can just pass those parameters as false when defining the chart: 
 ```python
@@ -83,5 +83,9 @@ Dependencies
 Pandas
 
 Jinja2
+
+Status
+-------
+Beta, until some tests are written. 
 
 
