@@ -43,6 +43,7 @@ vis = bearcart.Chart(price)
 vis.create_chart(html_path=html_path, data_path=data_path, 
                  js_path=js_path, css_path=css_path)
 ```
+![Line](http://farm9.staticflickr.com/8274/8712121301_7b2c09a6eb_z.jpg)
 
 Go take a look at [this bl.ock](http://bl.ocks.org/wrobstory/5523221) for the interactive example with the tooltip and legend data selection. 
 
@@ -57,6 +58,7 @@ price = pd.DataFrame({tic: data['Adj Close']
 vis = bearcart.Chart(price, type='area')
 
 ```
+![Area](http://farm9.staticflickr.com/8271/8712121307_5204f670ea_z.jpg)
 
 Interactive version [here]. Finally, let's make a scatterplot with some custom colors: 
 ```python
@@ -65,11 +67,21 @@ df = pd.concat([price['AAPL'], price['GOOG']], axis=1)[:100]
 vis = bearcart.Chart(df, type='scatterplot', colors={'AAPL': '#1d4e69', 
                                                      'GOOG': '#3b98ca' })
 ```
+![Scatter](http://farm9.staticflickr.com/8140/8712121243_4a643185d8_z.jpg)
 
 Interactive example [here].
 
 If you don't want some of the chart features, like the legend, hover, x-axis, etc, you can just pass those parameters as false when defining the chart: 
 ```python
 vis = bearcart.Chart(df, hover=False, legend=False)
+```
+
+That's it- a small little library for making nice little interactive timeseries charts. Happy plotting!
+
+Dependencies
+---------------
+Pandas
+
+Jinja2
 
 
