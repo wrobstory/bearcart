@@ -90,11 +90,6 @@ class Chart(object):
         for key, value in kwargs.iteritems():
             self.defaults[key] = value
 
-        #CSS is tied to the y-axis
-        if self.defaults['y_axis']:
-            css = self.env.get_template('chart_css.css')
-            self.template_vars.update({'css': css.render()})
-
         #Get templates for graph elements
         for att, val in self.defaults.iteritems():
             if val:

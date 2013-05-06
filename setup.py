@@ -31,7 +31,10 @@ kw = {
     'keywords': 'data visualization',
     'classifiers': classifiers,
     'packages': ['bearcart'],
-    'package_data': {'bearcart': ['*.html']},
+    'package_data': {'bearcart': ['*.js',
+                                  '*.css',
+                                  'templates/*.html', 
+                                  'templates/*.js']},
     'install_requires': required,
     'zip_safe': True,
 }
