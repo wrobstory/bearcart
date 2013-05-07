@@ -4,13 +4,10 @@ try:
     from setuptools import setup
 except ImportError:
     from distutils.core import setup
-    
-from os.path import abspath, dirname, join
 
-path = abspath(dirname(__file__))
 
 classifiers = (
-    'Development Status :: 3 - Alpha',
+    'Development Status :: 4 - Beta',
     'Programming Language :: Python :: 2.7',
     'License :: OSI Approved :: MIT License',
 )
@@ -23,7 +20,7 @@ kw = {
     'name': 'bearcart',
     'version': '0.1.0',
     'description': 'Python Pandas + Rickshaw.js = BearCart',
-    'long_description': open(join(path, 'README.md')).read(),
+    'long_description': open('README.md', 'rt').read(),
     'author': 'Rob Story',
     'author_email': 'wrobstory@gmail.com',
     'license': 'MIT License',
@@ -31,10 +28,10 @@ kw = {
     'keywords': 'data visualization',
     'classifiers': classifiers,
     'packages': ['bearcart'],
-    'package_data': {'bearcart': ['*.js',
-                                  '*.css',
-                                  'templates/*.html', 
-                                  'templates/*.js']},
+    'package_data': {'bearcart': ['bearcart/*.js',
+                                  'bearcart/*.css',
+                                  'bearcart/templates/*.html',
+                                  'bearcart/templates/*.js']},
     'install_requires': required,
     'zip_safe': True,
 }
