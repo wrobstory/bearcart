@@ -12,6 +12,12 @@ Bearcart is a small library for creating Rickshaw visualizations with Pandas tim
 
 Bearcart uses Jinja2 templating to create the output, and the files are simple HTML/CSS/JS that can be manipulated after the fact for your application. 
 
+Installation
+------------
+```shell
+$ pip install bearcart
+```
+
 Getting Started
 ---------------
 
