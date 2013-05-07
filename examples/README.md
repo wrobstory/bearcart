@@ -1,4 +1,4 @@
-In order to see the visualization, you will need to start a simple Python HTTP server and serve the html and javascript. In order to do so, run the code in the example file, then the following in the Python REPL (Ctrl-C to shutdown): 
+In order to see the chart, you will need to start a simple Python HTTP server and serve the html and javascript. In order to do so, run the code in the example file, then the following in the Python REPL (Ctrl-C to shutdown): 
 
 ```python
 import os
@@ -14,11 +14,11 @@ except KeyboardInterrupt:
     httpd.server_close()
 ```
 
-Alternatively, within the terminal/cmd window you can cd to your directory containing the vega.json and vega_template.html files and run the following command: 
+Alternatively, within the terminal/cmd window you can cd to your directory containing the json/html/css/js files and run the following command: 
 
 ```shell
 $python -m SimpleHTTPServer 8000
 ```
 
-Point your webbrowser to http://localhost:8000/vega_template.html to see the visualization. 
+Point your webbrowser to http://localhost:8000/vega_template.html to see the visualization.
 
