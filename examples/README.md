@@ -20,5 +20,5 @@ Alternatively, within the terminal/cmd window you can cd to your directory conta
 $python -m SimpleHTTPServer 8000
 ```
 
-Point your webbrowser to http://localhost:8000/vega_template.html to see the visualization.
+Point your webbrowser to http://localhost:8000/index.html to see the visualization.
 
