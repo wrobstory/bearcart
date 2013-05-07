@@ -92,6 +92,10 @@ Jinja2
 
 Status
 -------
-Beta, until some tests are written. 
+Beta, at least until it gets some use. 
+
+Docs
+----
+You can read the entire source in 20 minutes. But I needed to learn Sphinx: https://bearcart.readthedocs.org
 
 
