@@ -3,4 +3,4 @@ include *.txt
 
 recursive-include bearcart *.css
 recursive-include bearcart *.js
-recursive-include bearcart bearcart/templates *
+recursive-include bearcart/templates *
