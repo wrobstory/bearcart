@@ -1,0 +1,150 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Bearcart.Chart &mdash; bearcart 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="bearcart 0.1 documentation" href="index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li><a href="index.html">bearcart 0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="bearcart-chart">
+<h1>Bearcart.Chart<a class="headerlink" href="#bearcart-chart" title="Permalink to this headline">¶</a></h1>
+<p>Generate a Rickshaw time series visualization with Pandas
+Series and DataFrames.</p>
+<p>The bearcart Chart generates the Rickshaw visualization of a Pandas
+timeseries Series or DataFrame. The only required parameters are
+data, width, height, and type. Colors is an optional parameter;
+bearcart will default to the Rickshaw spectrum14 color palette if
+none are passed. Keyword arguments can be passed to disable the
+following components:</p>
+<blockquote>
+<div><ul class="simple">
+<li>x_axis</li>
+<li>y_axis</li>
+<li>hover</li>
+<li>legend</li>
+</ul>
+</div></blockquote>
+<dl class="class">
+<dt id="bearcart.Chart">
+<em class="property">class </em><tt class="descclassname">bearcart.</tt><tt class="descname">Chart</tt><big>(</big><em>data=None</em>, <em>width=750</em>, <em>height=400</em>, <em>type='line'</em>, <em>colors=None</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#bearcart.Chart" title="Permalink to this definition">¶</a></dt>
+<dd><p>Visualize Pandas Timeseries with Rickshaw.js</p>
+<dl class="method">
+<dt id="bearcart.Chart.create_chart">
+<tt class="descname">create_chart</tt><big>(</big><em>html_path='index.html'</em>, <em>data_path='data.json'</em>, <em>js_path=None</em>, <em>css_path=None</em><big>)</big><a class="headerlink" href="#bearcart.Chart.create_chart" title="Permalink to this definition">¶</a></dt>
+<dd><p>Save bearcart output to HTML and JSON.</p>
+<dl class="docutils">
+<dt>html_path: string, default &#8216;index.html&#8217;</dt>
+<dd>Path for html output</dd>
+<dt>data_path: string, default &#8216;data.json&#8217;</dt>
+<dd>Path for data JSON output</dd>
+<dt>js_path: string, default None</dt>
+<dd>If passed, the Rickshaw javascript library will be saved to the
+path. The file must be named &#8220;rickshaw.min.js&#8221;</dd>
+<dt>css_path: string, default None</dt>
+<dd>If passed, the Rickshaw css library will be saved to the
+path. The file must be named &#8220;rickshaw.min.css&#8221;</dd>
+</dl>
+<p>HTML, JSON, JS, and CSS</p>
+<dl class="docutils">
+<dt>&gt;&gt;&gt;vis.create_chart(html_path=&#8217;myvis.html&#8217;, data_path=&#8217;visdata.json&#8217;),</dt>
+<dd>js_path=&#8217;rickshaw.min.js&#8217;,
+cs_path=&#8217;rickshaw.min.css&#8217;)</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="bearcart.Chart.transform_data">
+<tt class="descname">transform_data</tt><big>(</big><em>data</em><big>)</big><a class="headerlink" href="#bearcart.Chart.transform_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Transform Pandas Timeseries into JSON format</p>
+<dl class="docutils">
+<dt>data: DataFrame or Series</dt>
+<dd>Pandas DataFrame or Series must have datetime index</dd>
+</dl>
+<p>JSON to object.json_data</p>
+<p>&gt;&gt;&gt;vis.transform_data(df)
+&gt;&gt;&gt;vis.json_data</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/bearcartchart.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li><a href="index.html">bearcart 0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2013, Rob Story.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>

@@ -1,0 +1,153 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Getting Started &mdash; bearcart 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="bearcart 0.1 documentation" href="index.html" />
+    <link rel="prev" title="Bearcart: Creating Rickshaw.js visualizations with Python Pandas" href="index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="index.html" title="Bearcart: Creating Rickshaw.js visualizations with Python Pandas"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">bearcart 0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="getting-started">
+<h1>Getting Started<a class="headerlink" href="#getting-started" title="Permalink to this headline">¶</a></h1>
+<p>Let&#8217;s plot some stocks and make a line chart. Get data with Pandas, make visualization with Bearcart:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">bearcart</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="kn">as</span> <span class="nn">pd</span>
+
+<span class="n">html_path</span> <span class="o">=</span> <span class="s">r&#39;index.html&#39;</span>
+<span class="n">data_path</span> <span class="o">=</span> <span class="s">r&#39;data.json&#39;</span>
+<span class="n">js_path</span> <span class="o">=</span> <span class="s">r&#39;rickshaw.min.js&#39;</span>
+<span class="n">css_path</span> <span class="o">=</span> <span class="s">r&#39;rickshaw.min.css&#39;</span>
+
+
+<span class="c">#All of the following import code comes from Wes McKinney&#39;s book, Python</span>
+<span class="c">#for Data Analysis</span>
+
+<span class="kn">import</span> <span class="nn">pandas.io.data</span> <span class="kn">as</span> <span class="nn">web</span>
+
+<span class="n">all_data</span> <span class="o">=</span> <span class="p">{}</span>
+
+<span class="k">for</span> <span class="n">ticker</span> <span class="ow">in</span> <span class="p">[</span><span class="s">&#39;AAPL&#39;</span><span class="p">,</span> <span class="s">&#39;GOOG&#39;</span><span class="p">]:</span>
+    <span class="n">all_data</span><span class="p">[</span><span class="n">ticker</span><span class="p">]</span> <span class="o">=</span> <span class="n">web</span><span class="o">.</span><span class="n">get_data_yahoo</span><span class="p">(</span><span class="n">ticker</span><span class="p">,</span> <span class="s">&#39;1/1/2010&#39;</span><span class="p">,</span> <span class="s">&#39;1/1/2013&#39;</span><span class="p">)</span>
+
+<span class="n">price</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="n">tic</span><span class="p">:</span> <span class="n">data</span><span class="p">[</span><span class="s">&#39;Adj Close&#39;</span><span class="p">]</span>
+                      <span class="k">for</span> <span class="n">tic</span><span class="p">,</span> <span class="n">data</span> <span class="ow">in</span> <span class="n">all_data</span><span class="o">.</span><span class="n">iteritems</span><span class="p">()})</span>
+
+<span class="n">vis</span> <span class="o">=</span> <span class="n">bearcart</span><span class="o">.</span><span class="n">Chart</span><span class="p">(</span><span class="n">price</span><span class="p">)</span>
+<span class="n">vis</span><span class="o">.</span><span class="n">create_chart</span><span class="p">(</span><span class="n">html_path</span><span class="o">=</span><span class="n">html_path</span><span class="p">,</span> <span class="n">data_path</span><span class="o">=</span><span class="n">data_path</span><span class="p">,</span>
+                 <span class="n">js_path</span><span class="o">=</span><span class="n">js_path</span><span class="p">,</span> <span class="n">css_path</span><span class="o">=</span><span class="n">css_path</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Go take a look at <a class="reference external" href="http://bl.ocks.org/wrobstory/5523221">this bl.ock</a> for the interactive example with the tooltip and legend data selection.</p>
+<p>Lets try more companies, and an area plot:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">all_data</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="k">for</span> <span class="n">ticker</span> <span class="ow">in</span> <span class="p">[</span><span class="s">&#39;AAPL&#39;</span><span class="p">,</span> <span class="s">&#39;GOOG&#39;</span><span class="p">,</span> <span class="s">&#39;XOM&#39;</span><span class="p">,</span> <span class="s">&#39;MSFT&#39;</span><span class="p">,</span> <span class="s">&#39;INTC&#39;</span><span class="p">,</span> <span class="s">&#39;YHOO&#39;</span><span class="p">]:</span>
+    <span class="n">all_data</span><span class="p">[</span><span class="n">ticker</span><span class="p">]</span> <span class="o">=</span> <span class="n">web</span><span class="o">.</span><span class="n">get_data_yahoo</span><span class="p">(</span><span class="n">ticker</span><span class="p">,</span> <span class="s">&#39;1/1/2012&#39;</span><span class="p">,</span> <span class="s">&#39;1/1/2013&#39;</span><span class="p">)</span>
+<span class="n">price</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="n">tic</span><span class="p">:</span> <span class="n">data</span><span class="p">[</span><span class="s">&#39;Adj Close&#39;</span><span class="p">]</span>
+                      <span class="k">for</span> <span class="n">tic</span><span class="p">,</span> <span class="n">data</span> <span class="ow">in</span> <span class="n">all_data</span><span class="o">.</span><span class="n">iteritems</span><span class="p">()})</span>
+
+<span class="n">vis</span> <span class="o">=</span> <span class="n">bearcart</span><span class="o">.</span><span class="n">Chart</span><span class="p">(</span><span class="n">price</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="s">&#39;area&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Interactive version <a class="reference external" href="http://bl.ocks.org/wrobstory/5523345">here</a>. Finally, let&#8217;s make a scatterplot with some custom colors:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">price</span><span class="p">[</span><span class="s">&#39;AAPL&#39;</span><span class="p">],</span> <span class="n">price</span><span class="p">[</span><span class="s">&#39;GOOG&#39;</span><span class="p">]],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)[:</span><span class="mi">100</span><span class="p">]</span>
+
+<span class="n">vis</span> <span class="o">=</span> <span class="n">bearcart</span><span class="o">.</span><span class="n">Chart</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="s">&#39;scatterplot&#39;</span><span class="p">,</span> <span class="n">colors</span><span class="o">=</span><span class="p">{</span><span class="s">&#39;AAPL&#39;</span><span class="p">:</span> <span class="s">&#39;#1d4e69&#39;</span><span class="p">,</span>
+                                                     <span class="s">&#39;GOOG&#39;</span><span class="p">:</span> <span class="s">&#39;#3b98ca&#39;</span> <span class="p">})</span>
+</pre></div>
+</div>
+<p>Interactive example <a class="reference external" href="http://bl.ocks.org/wrobstory/5523361">here</a></p>
+<p>If you don&#8217;t want some of the chart features, like the legend, hover, x-axis, etc, you can just pass those parameters as false when defining the chart:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">vis</span> <span class="o">=</span> <span class="n">bearcart</span><span class="o">.</span><span class="n">Chart</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">hover</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">legend</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>That&#8217;s it- a small little library for making nice little interactive timeseries charts. Happy plotting!</p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="index.html"
+                        title="previous chapter">Bearcart: Creating Rickshaw.js visualizations with Python Pandas</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/gettingstarted.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="index.html" title="Bearcart: Creating Rickshaw.js visualizations with Python Pandas"
+             >previous</a> |</li>
+        <li><a href="index.html">bearcart 0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2013, Rob Story.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>

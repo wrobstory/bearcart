@@ -37,8 +37,8 @@ class Chart(object):
             - hover
             - legend
 
-        Parameters:
-        -----------
+        Parameters
+        ----------
         data: Pandas Series or DataFrame, default None
              The Series or Dataframe must have a Datetime index.
         width: int, default 960
@@ -54,12 +54,12 @@ class Chart(object):
             Keyword arguments that, if passed as False, will disable the
             following components: x_axis, y_axis, hover, legend
 
-        Output:
+        Returns
         -------
         Bearcart object
 
-        Examples:
-        ---------
+        Examples
+        --------
         >>>vis = bearcart.Chart(data=df, width=800, height=300, type='area')
         >>>vis = bearcart.Chart(data=series,type='scatterplot',
                                 colors={'Data 1': '#25aeb0',
@@ -101,7 +101,23 @@ class Chart(object):
             self.transform_data(data)
 
     def transform_data(self, data):
-        '''Transform Pandas Timeseries into JSON format'''
+        '''Transform Pandas Timeseries into JSON format
+
+        Parameters
+        ----------
+        data: DataFrame or Series
+            Pandas DataFrame or Series must have datetime index
+
+        Returns
+        -------
+        JSON to object.json_data
+
+        Example
+        -------
+        >>>vis.transform_data(df)
+        >>>vis.json_data
+
+        '''
 
         objectify = lambda dat: [{"x": x, "y": y} for x, y in dat.iteritems()]
 
@@ -146,8 +162,8 @@ class Chart(object):
                      js_path=None, css_path=None):
         '''Save bearcart output to HTML and JSON.
 
-        Parameters:
-        -----------
+        Parameters
+        ----------
         html_path: string, default 'index.html'
             Path for html output
         data_path: string, default 'data.json'
@@ -159,11 +175,11 @@ class Chart(object):
             If passed, the Rickshaw css library will be saved to the
             path. The file must be named "rickshaw.min.css"
 
-        Output:
+        Returns
         -------
         HTML, JSON, JS, and CSS
 
-        Example:
+        Example
         --------
         >>>vis.create_chart(html_path='myvis.html', data_path='visdata.json'),
                             js_path='rickshaw.min.js',
