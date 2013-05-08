@@ -1,3 +1,4 @@
 var hoverDetail = new Rickshaw.Graph.HoverDetail( {
-    graph: graph
+    graph: graph,
+    {{ x_hover }}
 } );

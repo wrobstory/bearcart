@@ -21,8 +21,8 @@ from jinja2 import Environment, PackageLoader
 class Chart(object):
     '''Visualize Pandas Timeseries with Rickshaw.js'''
 
-    def __init__(self, data=None, width=750, height=400, type='line',
-                 colors=None, **kwargs):
+    def __init__(self, data=None, width=750, height=400, plt_type='line',
+                 colors=None, x_time=True, **kwargs):
         '''Generate a Rickshaw time series visualization with Pandas
         Series and DataFrames.
 
@@ -50,6 +50,8 @@ class Chart(object):
         colors: dict, default None
             Dict with keys matching DataFrame or Series column names, and hex
             strings for colors
+        x_time: boolean, default True
+            If passed as False, the x-axis will have non-time values
         kwargs:
             Keyword arguments that, if passed as False, will disable the
             following components: x_axis, y_axis, hover, legend
@@ -73,7 +75,6 @@ class Chart(object):
                          'legend': True}
 
         self.env = Environment(loader=PackageLoader('bearcart', 'templates'))
-        self.renderer = type
 
         #Colors need to be js strings
         if colors:
@@ -82,6 +83,8 @@ class Chart(object):
         else:
             self.colors = None
 
+        self.x_axis_time = x_time
+        self.renderer = plt_type
         self.width = width
         self.height = height
         self.template_vars = {}
@@ -92,9 +95,16 @@ class Chart(object):
 
         #Get templates for graph elements
         for att, val in self.defaults.iteritems():
+            render_vars = {}
             if val:
+                if not self.x_axis_time:
+                    if att == 'x_axis':
+                        att = 'x_axis_num'
+                    elif att == 'hover':
+                        render_vars = {'x_hover': 'xFormatter: function(x)'
+                                       '{return Math.floor(x / 10) * 10}'}
                 temp = self.env.get_template(att + '.js')
-                self.template_vars.update({att: temp.render()})
+                self.template_vars.update({att: temp.render(render_vars)})
 
         #Transform data into Rickshaw-happy JSON format
         if data is not None:
@@ -130,17 +140,20 @@ class Chart(object):
                               for x in data.iteritems()]
 
         #Transform to Epoch seconds for Rickshaw
-        for datacol in self.json_data:
-            datacol = datacol['data']
-            for objs in datacol:
-                if pd.isnull(objs['x']):
-                    objs['x'] = None
-                elif (isinstance(objs['x'], pd.tslib.Timestamp) or
-                      isinstance(objs['x'], pd.Period)):
-                    objs['x'] = time.mktime(objs['x'].timetuple())
+        if self.x_axis_time: 
+            for datacol in self.json_data:
+                datacol = datacol['data']
+                for objs in datacol:
+                    if pd.isnull(objs['x']):
+                        objs['x'] = None
+                    elif (isinstance(objs['x'], pd.tslib.Timestamp) or
+                          isinstance(objs['x'], pd.Period)):
+                        objs['x'] = time.mktime(objs['x'].timetuple())
 
     def _build_graph(self):
         '''Build Rickshaw graph syntax with all data'''
+
+        #Set palette colors if necessary
         if not self.colors:
             self.palette = self.env.get_template('palette.js')
             self.template_vars.update({'palette': self.palette.render()})

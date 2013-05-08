@@ -32,13 +32,13 @@ vis.create_chart(html_path=html_path, data_path=data_path,
                  js_path=js_path, css_path=css_path)
 
 #Bunch of data, area chart
-vis = bearcart.Chart(price, type='area')
+vis = bearcart.Chart(price, plt_type='area')
 vis.create_chart(html_path=html_path, data_path=data_path,
                  js_path=js_path, css_path=css_path)
 
 #Two data, custom colors, scatterplot
-vis = bearcart.Chart(df, type='scatterplot', colors={'AAPL': '#1d4e69', 
-                                                     'GOOG': '#3b98ca' })
+vis = bearcart.Chart(df, plt_type='scatterplot', colors={'AAPL': '#1d4e69', 
+                                                         'GOOG': '#3b98ca' })
 
 vis.create_chart(html_path=html_path, data_path=data_path,
                  js_path=js_path, css_path=css_path)

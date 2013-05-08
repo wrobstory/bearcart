@@ -6,12 +6,14 @@ Test Bearcart
 '''
 from __future__ import print_function
 from __future__ import division
+import time
+import random
 import bearcart
 import pandas as pd
 from pandas.util.testing import assert_almost_equal
 from jinja2 import Environment, FileSystemLoader
 import nose.tools as nt
-import time
+
 
 
 class testBearcart(object):
@@ -48,7 +50,7 @@ class testBearcart(object):
         '''Test bearcart chart parameters and component removal'''
 
         #Test params
-        chart = bearcart.Chart(width=500, height=1000, type='area')
+        chart = bearcart.Chart(width=500, height=1000, plt_type='area')
         assert chart.height == 1000
         assert chart.width == 500
         assert chart.renderer == 'area'
@@ -69,3 +71,14 @@ class testBearcart(object):
         assert len(series) == len(chart.json_data[0]['data'])
         nt.eq_(time.mktime(series.index[0].timetuple()),
                chart.json_data[0]['data'][0]['x'])
+
+    def test_non_timeseries(self):
+        '''Test non timeseries data'''
+        tabular_data = [random.randint(10, 100) for x in range(0, 25, 1)]
+        df = pd.DataFrame({'Data 1': tabular_data})
+
+        chart = bearcart.Chart(df, x_time=False)
+        nt.assert_in('x_axis_num', chart.template_vars)
+        nt.assert_in('xFormatter: function(x)'
+                     '{return Math.floor(x / 10) * 10}\n}',
+                     chart.template_vars['hover'])
