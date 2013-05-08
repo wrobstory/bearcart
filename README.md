@@ -61,7 +61,7 @@ for ticker in ['AAPL', 'GOOG', 'XOM', 'MSFT', 'INTC', 'YHOO']:
 price = pd.DataFrame({tic: data['Adj Close']
                       for tic, data in all_data.iteritems()})
 
-vis = bearcart.Chart(price, type='area')
+vis = bearcart.Chart(price, plt_type='area')
 
 ```
 ![Area](http://farm9.staticflickr.com/8271/8712121307_5204f670ea_z.jpg)
@@ -70,8 +70,8 @@ Interactive version [here](http://bl.ocks.org/wrobstory/5523345). Finally, let's
 ```python
 df = pd.concat([price['AAPL'], price['GOOG']], axis=1)[:100]
 
-vis = bearcart.Chart(df, type='scatterplot', colors={'AAPL': '#1d4e69', 
-                                                     'GOOG': '#3b98ca' })
+vis = bearcart.Chart(df, plt_type='scatterplot', colors={'AAPL': '#1d4e69', 
+                                                         'GOOG': '#3b98ca' })
 ```
 ![Scatter](http://farm9.staticflickr.com/8140/8712121243_4a643185d8_z.jpg)
 
@@ -81,6 +81,14 @@ If you don't want some of the chart features, like the legend, hover, x-axis, et
 ```python
 vis = bearcart.Chart(df, hover=False, legend=False)
 ```
+
+Bearcart also supports non-timeseries plotting. Just pass ```x_time=False```:
+```python
+vis = bearcart.Chart(df, plt_type='bar', x_time=False)
+vis = bearcart.Chart(df, plt_type='area', x_time=False)
+```
+![Bar](http://farm8.staticflickr.com/7284/8719891356_fd1e5a49fd_z.jpg)
+![Area](http://farm8.staticflickr.com/7314/8719891050_1659241cdf_z.jpg)
 
 That's it- a small little library for making nice little interactive timeseries charts. Happy plotting!
 
