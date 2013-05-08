@@ -90,6 +90,8 @@ vis = bearcart.Chart(df, plt_type='area', x_time=False)
 ![Bar](http://farm8.staticflickr.com/7284/8719891356_fd1e5a49fd_z.jpg)
 ![Area](http://farm8.staticflickr.com/7314/8719891050_1659241cdf_z.jpg)
 
+Interactive examples [here](http://bl.ocks.org/wrobstory/5538300) and [here](http://bl.ocks.org/wrobstory/5538320)
+
 That's it- a small little library for making nice little interactive timeseries charts. Happy plotting!
 
 Dependencies
