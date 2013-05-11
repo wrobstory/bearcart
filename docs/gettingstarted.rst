@@ -40,14 +40,14 @@ Lets try more companies, and an area plot::
     price = pd.DataFrame({tic: data['Adj Close']
                           for tic, data in all_data.iteritems()})
 
-    vis = bearcart.Chart(price, type='area')
+    vis = bearcart.Chart(price, plt_type='area')
 
 Interactive version `here <http://bl.ocks.org/wrobstory/5523345>`_. Finally, let's make a scatterplot with some custom colors::
 
     df = pd.concat([price['AAPL'], price['GOOG']], axis=1)[:100]
 
-    vis = bearcart.Chart(df, type='scatterplot', colors={'AAPL': '#1d4e69', 
-                                                         'GOOG': '#3b98ca' })
+    vis = bearcart.Chart(df, plt_type='scatterplot', colors={'AAPL': '#1d4e69', 
+                                                             'GOOG': '#3b98ca' })
 
 Interactive example `here <http://bl.ocks.org/wrobstory/5523361>`_
 
