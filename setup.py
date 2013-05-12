@@ -7,7 +7,7 @@ except ImportError:
 
 setup(
     name='bearcart',
-    version='0.1.2',
+    version='0.1.3',
     description='Python Pandas + Rickshaw.js = BearCart',
     author='Rob Story',
     author_email='wrobstory@gmail.com',
