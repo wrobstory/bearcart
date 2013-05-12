@@ -15,6 +15,7 @@ import os
 from collections import defaultdict
 from pkg_resources import resource_string
 import pandas as pd
+import numpy as np
 from jinja2 import Environment, PackageLoader
 
 
@@ -45,7 +46,7 @@ class Chart(object):
             Width of the chart in pixels
         height: int, default 500
             Height of the chart in pixels
-        type: string, default 'line'
+        plt_type: string, default 'line'
             Must be one of 'line', 'area', 'scatterplot' or 'bar'
         colors: dict, default None
             Dict with keys matching DataFrame or Series column names, and hex
@@ -142,9 +143,9 @@ class Chart(object):
             elif (isinstance(value, pd.tslib.Timestamp) or
                   isinstance(value, pd.Period)):
                 return time.mktime(value.timetuple())
-            elif isinstance(value, int):
+            elif isinstance(value, (int, np.integer)):
                 return int(value)
-            elif isinstance(value, float):
+            elif isinstance(value, (float, np.float_)):
                 return float(value)
             elif isinstance(value, str):
                 return str(value)
