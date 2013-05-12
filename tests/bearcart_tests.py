@@ -15,7 +15,6 @@ from jinja2 import Environment, FileSystemLoader
 import nose.tools as nt
 
 
-
 class testBearcart(object):
     '''Test Bearcart Chart class'''
 

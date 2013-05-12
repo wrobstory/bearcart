@@ -2,15 +2,15 @@
 ![BearCart](http://farm9.staticflickr.com/8254/8711978179_4f3a42e2b8_o.jpg)
 ###Creating Rickshaw.js visualizations with Python Pandas
 
-[Rickshaw.js](http://code.shutterstock.com/rickshaw/) is a great JavaScript library built on D3 by the folks at Shutterstock for plotting timeseries. [Pandas](http://pandas.pydata.org/) is a great Python library built by a number of outstanding folks in the open source community for creating timeseries. Bear, meet Cart. 
+[Rickshaw.js](http://code.shutterstock.com/rickshaw/) is a great JavaScript library built on D3 by the folks at Shutterstock for plotting timeseries. [Pandas](http://pandas.pydata.org/) is a great Python library built by a number of outstanding folks in the open source community for creating timeseries. Bear, meet Cart.
 
 Concept
 -------
-Pandas Series and DataFrames with DatetimeIndex goes in. Rickshaw.js comes out. 
+Pandas Series and DataFrames with DatetimeIndex goes in. Rickshaw.js comes out.
 
-Bearcart is a small library for creating Rickshaw visualizations with Pandas timeseries data structures. It has a simple API, a number of plot types, and some really nice legends and tooltips thanks to the folks at Shutterstock.  
+Bearcart is a small library for creating Rickshaw visualizations with Pandas timeseries data structures. It has a simple API, a number of plot types, and some really nice legends and tooltips thanks to the folks at Shutterstock.
 
-Bearcart uses Jinja2 templating to create the output, and the files are simple HTML/CSS/JS that can be manipulated after the fact for your application. 
+Bearcart uses Jinja2 templating to create the output, and the files are simple HTML/CSS/JS that can be manipulated after the fact for your application.
 
 Installation
 ------------
@@ -21,7 +21,7 @@ $ pip install bearcart
 Getting Started
 ---------------
 
-Let's plot some stocks and make a line chart. Get data with Pandas, make visualization with Bearcart: 
+Let's plot some stocks and make a line chart. Get data with Pandas, make visualization with Bearcart:
 ```python
 import bearcart
 import pandas as pd
@@ -32,7 +32,7 @@ js_path = r'rickshaw.min.js'
 css_path = r'rickshaw.min.css'
 
 
-#All of the following import code comes from Wes McKinney's book, Python 
+#All of the following import code comes from Wes McKinney's book, Python
 #for Data Analysis
 
 import pandas.io.data as web
@@ -46,14 +46,14 @@ price = pd.DataFrame({tic: data['Adj Close']
                       for tic, data in all_data.iteritems()})
 
 vis = bearcart.Chart(price)
-vis.create_chart(html_path=html_path, data_path=data_path, 
+vis.create_chart(html_path=html_path, data_path=data_path,
                  js_path=js_path, css_path=css_path)
 ```
 ![Line](http://farm9.staticflickr.com/8274/8712121301_7b2c09a6eb_z.jpg)
 
-Go take a look at [this bl.ock](http://bl.ocks.org/wrobstory/5523221) for the interactive example with the tooltip and legend data selection. 
+Go take a look at [this bl.ock](http://bl.ocks.org/wrobstory/5523221) for the interactive example with the tooltip and legend data selection.
 
-Lets try more companies, and an area plot: 
+Lets try more companies, and an area plot:
 ```python
 all_data = {}
 for ticker in ['AAPL', 'GOOG', 'XOM', 'MSFT', 'INTC', 'YHOO']:
@@ -66,18 +66,18 @@ vis = bearcart.Chart(price, plt_type='area')
 ```
 ![Area](http://farm9.staticflickr.com/8271/8712121307_5204f670ea_z.jpg)
 
-Interactive version [here](http://bl.ocks.org/wrobstory/5523345). Finally, let's make a scatterplot with some custom colors: 
+Interactive version [here](http://bl.ocks.org/wrobstory/5523345). Finally, let's make a scatterplot with some custom colors:
 ```python
 df = pd.concat([price['AAPL'], price['GOOG']], axis=1)[:100]
 
-vis = bearcart.Chart(df, plt_type='scatterplot', colors={'AAPL': '#1d4e69', 
+vis = bearcart.Chart(df, plt_type='scatterplot', colors={'AAPL': '#1d4e69',
                                                          'GOOG': '#3b98ca' })
 ```
 ![Scatter](http://farm9.staticflickr.com/8140/8712121243_4a643185d8_z.jpg)
 
 Interactive example [here](http://bl.ocks.org/wrobstory/5523361).
 
-If you don't want some of the chart features, like the legend, hover, x-axis, etc, you can just pass those parameters as false when defining the chart: 
+If you don't want some of the chart features, like the legend, hover, x-axis, etc, you can just pass those parameters as false when defining the chart:
 ```python
 vis = bearcart.Chart(df, hover=False, legend=False)
 ```
@@ -102,7 +102,7 @@ Jinja2
 
 Status
 -------
-Beta, at least until it gets some use. 
+Beta, at least until it gets some use.
 
 Docs
 ----
