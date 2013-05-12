@@ -100,6 +100,8 @@ Pandas
 
 Jinja2
 
+Numpy
+
 Status
 -------
 Beta, at least until it gets some use.
