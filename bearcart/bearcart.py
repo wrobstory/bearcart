@@ -22,7 +22,7 @@ class Chart(object):
     '''Visualize Pandas Timeseries with Rickshaw.js'''
 
     def __init__(self, data=None, width=750, height=400, plt_type='line',
-                 colors=None, x_time=True, **kwargs):
+                 colors=None, x_time=True, y_zero=False, **kwargs):
         '''Generate a Rickshaw time series visualization with Pandas
         Series and DataFrames.
 
@@ -52,6 +52,9 @@ class Chart(object):
             strings for colors
         x_time: boolean, default True
             If passed as False, the x-axis will have non-time values
+        y_zero: boolean, default False
+            The y-axis defaults to auto scaling. Pass True to set the min
+            y-axis value to 0.
         kwargs:
             Keyword arguments that, if passed as False, will disable the
             following components: x_axis, y_axis, hover, legend
@@ -87,6 +90,7 @@ class Chart(object):
         self.renderer = plt_type
         self.width = width
         self.height = height
+        self.y_zero = y_zero
         self.template_vars = {}
 
         #Update defaults for passed kwargs
@@ -129,7 +133,26 @@ class Chart(object):
 
         '''
 
-        objectify = lambda dat: [{"x": x, "y": y} for x, y in dat.iteritems()]
+        def type_check(value):
+            '''Type check values for JSON serialization. Native Python JSON
+            serialization will not recognize some Numpy data types properly,
+            so they must be explictly converted.'''
+            if pd.isnull(value):
+                return None
+            elif (isinstance(value, pd.tslib.Timestamp) or
+                  isinstance(value, pd.Period)):
+                return time.mktime(value.timetuple())
+            elif isinstance(value, int):
+                return int(value)
+            elif isinstance(value, float):
+                return float(value)
+            elif isinstance(value, str):
+                return str(value)
+            else:
+                return value
+
+        objectify = lambda dat: [{"x": type_check(x), "y": type_check(y)}
+                                 for x, y in dat.iteritems()]
 
         self.raw_data = data
         if isinstance(data, pd.Series):
@@ -138,17 +161,6 @@ class Chart(object):
         elif isinstance(data, pd.DataFrame):
             self.json_data = [{'name': x[0], 'data': objectify(x[1])}
                               for x in data.iteritems()]
-
-        #Transform to Epoch seconds for Rickshaw
-        if self.x_axis_time: 
-            for datacol in self.json_data:
-                datacol = datacol['data']
-                for objs in datacol:
-                    if pd.isnull(objs['x']):
-                        objs['x'] = None
-                    elif (isinstance(objs['x'], pd.tslib.Timestamp) or
-                          isinstance(objs['x'], pd.Period)):
-                        objs['x'] = time.mktime(objs['x'].timetuple())
 
     def _build_graph(self):
         '''Build Rickshaw graph syntax with all data'''
@@ -168,6 +180,9 @@ class Chart(object):
 
         variables = {'dataset': template_vars, 'width': self.width,
                      'height': self.height, 'render': self.renderer}
+        if not self.y_zero:
+            variables.update({'min': "min: 'auto',"})
+
         graph = self.env.get_template('graph.js')
         self.template_vars.update({'graph': graph.render(variables)})
 

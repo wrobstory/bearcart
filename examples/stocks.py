@@ -37,7 +37,7 @@ vis.create_chart(html_path=html_path, data_path=data_path,
                  js_path=js_path, css_path=css_path)
 
 #Two data, custom colors, scatterplot
-vis = bearcart.Chart(df, plt_type='scatterplot', colors={'AAPL': '#1d4e69', 
+vis = bearcart.Chart(df, plt_type='scatterplot', colors={'AAPL': '#1d4e69',
                                                          'GOOG': '#3b98ca' })
 
 vis.create_chart(html_path=html_path, data_path=data_path,

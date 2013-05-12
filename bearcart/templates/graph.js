@@ -1,6 +1,6 @@
 var graph = new Rickshaw.Graph( {
                 element: document.querySelector("#chart"),
-                min: 'auto',
+                {{ min }}
                 width: {{ width }},
                 height: {{ height}},
                 renderer: '{{ render }}',
