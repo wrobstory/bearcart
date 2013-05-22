@@ -35,10 +35,11 @@ class testBearcart(object):
         '''Test bearcart chart creation'''
 
         #Test defaults
-        chart = bearcart.Chart()
+        chart = bearcart.Chart(colors={'Data 1': '#25aeb0'})
         assert chart.height == 400
         assert chart.width == 750
         assert chart.renderer == 'line'
+        assert chart.colors == {'Data 1': "'#25aeb0'"}
         temps = {x.split('.')[0]: x.split('.')[1]
                  for x in self.templates.list_templates()}
         for key, value in chart.template_vars.iteritems():
@@ -71,6 +72,7 @@ class testBearcart(object):
         nt.eq_(time.mktime(series.index[0].timetuple()),
                chart.json_data[0]['data'][0]['x'])
 
+
     def test_non_timeseries(self):
         '''Test non timeseries data'''
         tabular_data = [random.randint(10, 100) for x in range(0, 25, 1)]
@@ -81,3 +83,29 @@ class testBearcart(object):
         nt.assert_in('xFormatter: function(x)'
                      '{return Math.floor(x / 10) * 10}\n}',
                      chart.template_vars['hover'])
+
+    def test_build_graph(self):
+        '''Test graph build'''
+        series = self.price['AAPL']
+        chart = bearcart.Chart(series)
+        chart._build_graph()
+
+        vars = {'dataset': [{'name': 'AAPL', 'color': 'palette.color()',
+                            'data': 'json[0].data', }],
+                'width': 750, 'height': 400, 'render': 'line',
+                'min': "min: 'auto',"}
+
+        graph_templ = self.templates.get_template('graph.js')
+        graph = graph_templ.render(vars)
+
+        assert chart.colors == {'AAPL': 'palette.color()'}
+        assert chart.template_vars['graph'] == graph
+
+
+
+
+
+
+
+
+
