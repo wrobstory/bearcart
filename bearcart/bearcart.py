@@ -188,7 +188,7 @@ class Chart(object):
         self.template_vars.update({'graph': graph.render(variables)})
 
     def create_chart(self, html_path='index.html', data_path='data.json',
-                     js_path=None, css_path=None):
+                     js_path='rickshaw.min.js', css_path='rickshaw.min.css'):
         '''Save bearcart output to HTML and JSON.
 
         Parameters
