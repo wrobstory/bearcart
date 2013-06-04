@@ -215,7 +215,9 @@ class Chart(object):
                             cs_path='rickshaw.min.css')
         '''
 
-        self.template_vars.update({'data_path': str(data_path)})
+        self.template_vars.update({'data_path': str(data_path),
+                                   'js_path': js_path,
+                                   'css_path': css_path})
 
         self._build_graph()
         html = self.env.get_template('bcart_template.html')
