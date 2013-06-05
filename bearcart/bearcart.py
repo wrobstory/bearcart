@@ -188,7 +188,8 @@ class Chart(object):
         self.template_vars.update({'graph': graph.render(variables)})
 
     def create_chart(self, html_path='index.html', data_path='data.json',
-                     js_path='rickshaw.min.js', css_path='rickshaw.min.css'):
+                     js_path='rickshaw.min.js', css_path='rickshaw.min.css',
+                     html_prefix=''):
         '''Save bearcart output to HTML and JSON.
 
         Parameters
@@ -197,12 +198,16 @@ class Chart(object):
             Path for html output
         data_path: string, default 'data.json'
             Path for data JSON output
-        js_path: string, default None
+        js_path: string, default 'rickshaw.min.js'
             If passed, the Rickshaw javascript library will be saved to the
             path. The file must be named "rickshaw.min.js"
-        css_path: string, default None
+        css_path: string, default 'rickshaw.min.css'
             If passed, the Rickshaw css library will be saved to the
             path. The file must be named "rickshaw.min.css"
+        html_prefix: Prefix path to be appended to all the other paths for file
+            creation, but not in the generated html file. This is needed if the
+            html file does not live in the same folder as the running python
+            script.
 
         Returns
         -------
@@ -223,18 +228,18 @@ class Chart(object):
         html = self.env.get_template('bcart_template.html')
         self.HTML = html.render(self.template_vars)
 
-        with open(html_path, 'w') as f:
+        with open(os.path.join(html_prefix, html_path), 'w') as f:
             f.write(self.HTML)
 
-        with open(data_path, 'w') as f:
+        with open(os.path.join(html_prefix, data_path), 'w') as f:
             json.dump(self.json_data, f, sort_keys=True, indent=4,
                       separators=(',', ': '))
 
         if js_path:
             js = resource_string('bearcart', 'rickshaw.min.js')
-            with open(js_path, 'w') as f:
+            with open(os.path.join(html_prefix, js_path), 'w') as f:
                 f.write(js)
         if css_path:
             css = resource_string('bearcart', 'rickshaw.min.css')
-            with open(css_path, 'w') as f:
+            with open(os.path.join(html_prefix, css_path), 'w') as f:
                     f.write(css)
