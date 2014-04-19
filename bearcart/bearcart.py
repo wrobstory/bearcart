@@ -9,14 +9,16 @@ Python Pandas + Rickshaw.js
 
 from __future__ import print_function
 from __future__ import division
-import time
+
+from collections import defaultdict
 import json
 import os
-from collections import defaultdict
-from pkg_resources import resource_string
-import pandas as pd
-import numpy as np
+import time
+
 from jinja2 import Environment, PackageLoader
+import pandas as pd
+from pkg_resources import resource_string
+import numpy as np
 
 
 class Chart(object):
