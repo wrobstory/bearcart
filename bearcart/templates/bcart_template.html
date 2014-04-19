@@ -1,70 +1,65 @@
 <!doctype>
 <head>
-  <link rel="stylesheet" href={{ css_path }}>
+  <link rel="stylesheet" href="{{ css_path }}">
   <link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
 	<script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
   <script src="//code.jquery.com/jquery-1.9.1.js"></script>
   <script src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
 
-	<script src={{ js_path }}></script>
+	<script src="{{ js_path }}"></script>
 
 <style>
-body {
-  font: 10px sans-serif;
-}
-#chart {
-    float: left;
-    margin-top: 70px;
-          }
-#y_axis {
-   float: left;
-   margin-top: 70px;
-          }
-#legend {
-        float: left;
-        margin-left: 15px;
-        margin-top: 70px;
-}
+  .rickshaw-chart {
+      font: 10px sans-serif;
+      float: left;
+      margin-top: 70px;
+            }
+  .rickshaw-y-axis {
+      font: 10px sans-serif;
+      float: left;
+      margin-top: 70px;
+  }
+  .rickshaw-legend {
+      float: left;
+      margin-left: 15px;
+      margin-top: 70px;
+  }
 
-#slider
-  {
-    float:left;
-    margin-top: : 100px;
-
-}
+  .rickshaw-slider {
+      float:left;
+      margin-top: : 100px;
+  }
 </style>
 </head>
 <body>
-
-        <div id="y_axis"></div>
-        <div id="chart"></div>
-        <div id="legend"></div>
-        <div id="slider"></div>
-
+        <div class="rickshaw-y-axis" id="{{ y_axis_id }}"></div>
+        <div class="rickshaw-chart" id="{{ chart_id }}"></div>
+        <div class="rickshaw-legend" id="{{ legend_id }}"></div>
+        <div class="rickshaw-slider" id="{{ slider_id }}"></div>
 
 <script>
 
-{{ palette }}
+  {{ palette }}
 
-d3.json('{{ data_path }}', function(error, json) {
+  d3.json('{{ data_path }}', function(error, json) {
 
-{{ graph }}
+    {{ graph }}
 
-{{ x_axis }}
+    {{ x_axis }}
 
-{{ x_axis_num }}
+    {{ x_axis_num }}
 
-{{ y_axis }}
+    {{ y_axis }}
 
-{{ hover }}
+    {{ hover }}
 
-{{ legend }}
+    {{ legend }}
 
-{{ slider }}
+    {{ slider }}
 
-graph.render();
+    graph.render();
 
-});
+  });
 
 
 </script>

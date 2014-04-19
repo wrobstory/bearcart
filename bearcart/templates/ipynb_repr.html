@@ -1,0 +1,39 @@
+
+<div class="rickshaw-y-axis" id="{{ y_axis_id }}"></div>
+<div class="rickshaw-chart" id="{{ chart_id }}"></div>
+<div class="rickshaw-legend" id="{{ legend_id }}"></div>
+<div class="rickshaw-slider" id="{{ slider_id }}"></div>
+
+<script>
+
+  var json = JSON.parse('{{ export_json }}');
+
+  var make_plot = function(){
+    if (typeof Rickshaw === 'undefined'){
+      window.addEventListener('bearcart_libs_loaded', make_plot)
+      return;
+    }
+
+    {{ palette }}
+
+    {{ graph }}
+
+    {{ x_axis }}
+
+    {{ x_axis_num }}
+
+    {{ y_axis }}
+
+    {{ hover }}
+
+    {{ legend }}
+
+    {{ slider }}
+
+    graph.render();
+
+  };
+
+  make_plot();
+
+</script>

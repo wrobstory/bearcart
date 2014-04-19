@@ -14,12 +14,27 @@ from collections import defaultdict
 import json
 import os
 import time
+from uuid import uuid4
 
 from jinja2 import Environment, PackageLoader
 import pandas as pd
 from pkg_resources import resource_string
 import numpy as np
 
+ENV = Environment(loader=PackageLoader('bearcart', 'templates'))
+
+def initialize_notebook():
+    """Initialize the IPython notebook display elements"""
+    try:
+        from IPython.core.display import display, HTML
+    except ImportError:
+        print("IPython Notebook could not be loaded.")
+
+    lib_js = ENV.get_template('ipynb_init_js.html')
+    lib_css = ENV.get_template('ipynb_init_css.html')
+
+    display(HTML(lib_js.render()))
+    display(HTML(lib_css.render()))
 
 class Chart(object):
 
@@ -82,7 +97,7 @@ class Chart(object):
         self.defaults = {'x_axis': True, 'y_axis': True, 'hover': True,
                          'legend': True, 'slider': True}
 
-        self.env = Environment(loader=PackageLoader('bearcart', 'templates'))
+        self.env = ENV
 
         # Colors need to be js strings
         if colors:
@@ -102,6 +117,10 @@ class Chart(object):
         for key, value in kwargs.iteritems():
             self.defaults[key] = value
 
+        for id_var in ['y_axis_id', 'legend_id', 'slider_id']:
+            id = '_'.join(['bearcart', id_var, uuid4().hex])
+            setattr(self, id_var, id)
+
         # Get templates for graph elements
         for att, val in self.defaults.iteritems():
             render_vars = {}
@@ -112,6 +131,10 @@ class Chart(object):
                     elif att == 'hover':
                         render_vars = {'x_hover': 'xFormatter: function(x)'
                                        '{return Math.floor(x / 10) * 10}'}
+                render_vars.update({'height': self.height,
+                                    'y_axis_id': self.y_axis_id,
+                                    'legend_id': self.legend_id,
+                                    'slider_id': self.slider_id})
                 temp = self.env.get_template(att + '.js')
                 self.template_vars.update({att: temp.render(render_vars)})
 
@@ -184,7 +207,8 @@ class Chart(object):
                                   'data': 'json[{0}].data'.format(index)})
 
         variables = {'dataset': template_vars, 'width': self.width,
-                     'height': self.height, 'render': self.renderer}
+                     'height': self.height, 'render': self.renderer,
+                     'chart_id': self.chart_id}
         if not self.y_zero:
             variables.update({'min': "min: 'auto',"})
 
@@ -224,9 +248,15 @@ class Chart(object):
                             cs_path='rickshaw.min.css')
         '''
 
+        self.chart_id = '_'.join(['bearcart', uuid4().hex])
+
         self.template_vars.update({'data_path': str(data_path),
                                    'js_path': js_path,
-                                   'css_path': css_path})
+                                   'css_path': css_path,
+                                   'chart_id': self.chart_id,
+                                   'y_axis_id': self.y_axis_id,
+                                   'legend_id': self.legend_id,
+                                   'slider_id': self.slider_id})
 
         self._build_graph()
         html = self.env.get_template('bcart_template.html')
@@ -247,3 +277,28 @@ class Chart(object):
             css = resource_string('bearcart', 'rickshaw.min.css')
             with open(os.path.join(html_prefix, css_path), 'w') as f:
                     f.write(css)
+
+    def _repr_html_(self):
+        """Build the HTML representation for IPython."""
+        self.chart_id = '_'.join(['bearcart', uuid4().hex])
+        self.template_vars.update({'chart_id': self.chart_id,
+                                   'y_axis_id': self.y_axis_id,
+                                   'legend_id': self.legend_id,
+                                   'slider_id': self.slider_id,
+                                   'export_json': json.dumps(self.json_data)})
+
+        self._build_graph()
+        html = self.env.get_template('ipynb_repr.html')
+        return html.render(self.template_vars)
+
+    def display(self):
+        """Display the visualization inline in the IPython notebook.
+
+        This is deprecated, use the following instead::
+
+            from IPython.display import display
+            display(viz)
+        """
+        from IPython.core.display import display, HTML
+        display(HTML(self._repr_html_()))
+
