@@ -6,13 +6,18 @@ Test Bearcart
 '''
 from __future__ import print_function
 from __future__ import division
+
+import datetime
 import time
 import random
-import bearcart
+
 import pandas as pd
+import pandas.io.data as web
 from pandas.util.testing import assert_almost_equal
 from jinja2 import Environment, FileSystemLoader
 import nose.tools as nt
+
+import bearcart
 
 
 class testBearcart(object):
@@ -20,20 +25,18 @@ class testBearcart(object):
 
     @classmethod
     def setup_class(self):
-        '''Bearcart test data and template setup'''
-        import pandas.io.data as web
 
         all_data = {}
-        for ticker in ['AAPL', 'GOOG']:
-            all_data[ticker] = web.get_data_yahoo(ticker,
-                                                  '4/1/2013', '5/1/2013')
+        date_start = datetime.datetime(2010, 1, 1)
+        date_end = datetime.datetime(2014, 1, 1)
+        for ticker in ['AAPL', 'MSFT']:
+            all_data[ticker] = web.DataReader(ticker, 'yahoo', date_start,
+                                              date_end)
         self.price = pd.DataFrame({tic: data['Adj Close']
-                                  for tic, data in all_data.iteritems()})
+                                   for tic, data in all_data.items()})
         self.templates = Environment(loader=FileSystemLoader('templates'))
 
     def test_init(self):
-        '''Test bearcart chart creation'''
-
         #Test defaults
         chart = bearcart.Chart(colors={'Data 1': '#25aeb0'})
         assert chart.height == 400
@@ -47,8 +50,6 @@ class testBearcart(object):
             assert value == template.render()
 
     def test_params(self):
-        '''Test bearcart chart parameters and component removal'''
-
         #Test params
         chart = bearcart.Chart(width=500, height=1000, plt_type='area')
         assert chart.height == 1000
@@ -58,11 +59,9 @@ class testBearcart(object):
         #Test component removal
         chart = bearcart.Chart(x_axis=False, legend=False)
         nt.assert_list_equal(chart.template_vars.keys(),
-                             ['y_axis', 'hover'])
+                             ['y_axis', 'hover', 'slider'])
 
     def test_data(self):
-        '''Test bearcart data import and transformation'''
-
         #Test data
         series = self.price['AAPL']
         chart = bearcart.Chart(series)
@@ -74,7 +73,6 @@ class testBearcart(object):
 
 
     def test_non_timeseries(self):
-        '''Test non timeseries data'''
         tabular_data = [random.randint(10, 100) for x in range(0, 25, 1)]
         df = pd.DataFrame({'Data 1': tabular_data})
 
@@ -85,7 +83,6 @@ class testBearcart(object):
                      chart.template_vars['hover'])
 
     def test_build_graph(self):
-        '''Test graph build'''
         series = self.price['AAPL']
         chart = bearcart.Chart(series)
         chart._build_graph()
