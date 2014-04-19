@@ -20,6 +20,7 @@ from jinja2 import Environment, PackageLoader
 
 
 class Chart(object):
+
     '''Visualize Pandas Timeseries with Rickshaw.js'''
 
     def __init__(self, data=None, width=750, height=400, plt_type='line',
@@ -37,6 +38,7 @@ class Chart(object):
             - y_axis
             - hover
             - legend
+            - slider
 
         Parameters
         ----------
@@ -58,7 +60,7 @@ class Chart(object):
             y-axis value to 0.
         kwargs:
             Keyword arguments that, if passed as False, will disable the
-            following components: x_axis, y_axis, hover, legend
+            following components: x_axis, y_axis, hover, legend, slider
 
         Returns
         -------
@@ -76,11 +78,11 @@ class Chart(object):
         '''
 
         self.defaults = {'x_axis': True, 'y_axis': True, 'hover': True,
-                         'legend': True}
+                         'legend': True, 'slider': True}
 
         self.env = Environment(loader=PackageLoader('bearcart', 'templates'))
 
-        #Colors need to be js strings
+        # Colors need to be js strings
         if colors:
             self.colors = {key: "'{0}'".format(value)
                            for key, value in colors.iteritems()}
@@ -94,11 +96,11 @@ class Chart(object):
         self.y_zero = y_zero
         self.template_vars = {}
 
-        #Update defaults for passed kwargs
+        # Update defaults for passed kwargs
         for key, value in kwargs.iteritems():
             self.defaults[key] = value
 
-        #Get templates for graph elements
+        # Get templates for graph elements
         for att, val in self.defaults.iteritems():
             render_vars = {}
             if val:
@@ -111,7 +113,7 @@ class Chart(object):
                 temp = self.env.get_template(att + '.js')
                 self.template_vars.update({att: temp.render(render_vars)})
 
-        #Transform data into Rickshaw-happy JSON format
+        # Transform data into Rickshaw-happy JSON format
         if data is not None:
             self.transform_data(data)
 
@@ -166,7 +168,7 @@ class Chart(object):
     def _build_graph(self):
         '''Build Rickshaw graph syntax with all data'''
 
-        #Set palette colors if necessary
+        # Set palette colors if necessary
         if not self.colors:
             self.palette = self.env.get_template('palette.js')
             self.template_vars.update({'palette': self.palette.render()})

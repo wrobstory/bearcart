@@ -1,8 +1,11 @@
 <!doctype>
 <head>
   <link rel="stylesheet" href={{ css_path }}>
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
 	<script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.1/jquery.min.js"></script>
+  <script src="//code.jquery.com/jquery-1.9.1.js"></script>
+  <script src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+
 	<script src={{ js_path }}></script>
 
 <style>
@@ -22,6 +25,13 @@ body {
         margin-left: 15px;
         margin-top: 70px;
 }
+
+#slider
+  {
+    float:left;
+    margin-top: : 100px;
+
+}
 </style>
 </head>
 <body>
@@ -29,6 +39,7 @@ body {
         <div id="y_axis"></div>
         <div id="chart"></div>
         <div id="legend"></div>
+        <div id="slider"></div>
 
 
 <script>
@@ -48,6 +59,8 @@ d3.json('{{ data_path }}', function(error, json) {
 {{ hover }}
 
 {{ legend }}
+
+{{ slider }}
 
 graph.render();
 
