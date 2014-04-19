@@ -21,16 +21,12 @@
     {bubbles: true, cancelable: true}
   );
 
-  var load_charts = function(){
-    window.dispatchEvent(bearcart_event);
-  }
-
  function load_all_libs(){
     console.log('Loading all Bearcart Libraries...')
     bct_load_lib('http://d3js.org/d3.v3.min.js', function(){
       bct_load_lib('http://code.jquery.com/jquery-1.9.1.js', function(){
         bct_load_lib('http://code.jquery.com/ui/1.10.4/jquery-ui.js', function(){
-          bct_load_lib('http://cdnjs.cloudflare.com/ajax/libs/rickshaw/1.4.6/rickshaw.min.js', load_charts)
+          bct_load_lib('http://cdnjs.cloudflare.com/ajax/libs/rickshaw/1.4.6/rickshaw.min.js')
         })
       })
     })
@@ -46,11 +42,13 @@
               console.log('Loading from require.js...')
               window.d3 = d3;
               load_all_libs();
+              window.dispatchEvent(bearcart_event);
           });
       };
  }else{
       console.log('Require.js not found, loading manually...')
       load_all_libs();
+      window.dispatchEvent(bearcart_event);
  };
 
 </script>
