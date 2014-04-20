@@ -1,5 +1,5 @@
 var graph = new Rickshaw.Graph( {
-                element: document.querySelector("#chart"),
+                element: d3.select("#{{ chart_id }}").node(),
                 {{ min }}
                 width: {{ width }},
                 height: {{ height}},

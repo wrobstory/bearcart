@@ -95,6 +95,8 @@ class testBearcart(object):
         graph_templ = self.templates.get_template('graph.js')
         graph = graph_templ.render(vars)
 
+        import ipdb;ipdb.set_trace()
+
         assert chart.colors == {'AAPL': 'palette.color()'}
         assert chart.template_vars['graph'] == graph
 

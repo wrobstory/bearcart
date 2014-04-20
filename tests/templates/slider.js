@@ -1,4 +1,4 @@
 var slider = new Rickshaw.Graph.RangeSlider({
     graph: graph,
-    element: document.querySelector('#slider')
+    element: d3.select("#{{ slider_id }}").node()
 });

@@ -1,0 +1,38 @@
+<script>
+
+  var bearcart_event = new CustomEvent(
+    "bearcart_libs_loaded",
+    {bubbles: true, cancelable: true}
+  );
+
+  var load_cart_charts = function(){
+    window.dispatchEvent(bearcart_event);
+  };
+
+ function load_bearcart_libs(){
+    console.log('Loading all Bearcart libraries...')
+    $.getScript('http://code.jquery.com/ui/1.10.4/jquery-ui.js', function(){
+      $.getScript('http://cdnjs.cloudflare.com/ajax/libs/rickshaw/1.4.6/rickshaw.min.js', load_cart_charts)
+    })
+  };
+
+ if(typeof define === "function" && define.amd){
+      if (window['d3'] === undefined){
+          require.config(
+              {paths: {d3: 'http://d3js.org/d3.v3.min'}
+              }
+            );
+          require(["d3"], function(d3){
+              console.log('Loading from require.js...')
+              window.d3 = d3;
+              load_bearcart_libs();
+          });
+      } else {
+        load_bearcart_libs();
+      }
+ }else{
+      console.log('Require.js not found!');
+      throw "Require.js not found!"
+ };
+
+</script>
