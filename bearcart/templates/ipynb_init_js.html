@@ -1,36 +1,20 @@
 <script>
-  function bct_load_lib(url, callback){
-        if(typeof d3 !== 'undefined' && url === 'http://d3js.org/d3.v3.min.js'){
-          callback();
-          return null
-        } else if(typeof $ !== 'undefined' && url == 'http://code.jquery.com/jquery-1.9.1.js'){
-          callback();
-          return null
-        }
-        var s = document.createElement('script');
-        s.src = url;
-        s.async = true;
-        s.onreadystatechange = s.onload = callback;
-        s.onerror = function(){
-          console.warn("failed to load library " + url);
-          };
-        document.getElementsByTagName("head")[0].appendChild(s);
-  }
+
   var bearcart_event = new CustomEvent(
     "bearcart_libs_loaded",
     {bubbles: true, cancelable: true}
   );
 
- function load_all_libs(){
-    console.log('Loading all Bearcart Libraries...')
-    bct_load_lib('http://d3js.org/d3.v3.min.js', function(){
-      bct_load_lib('http://code.jquery.com/jquery-1.9.1.js', function(){
-        bct_load_lib('http://code.jquery.com/ui/1.10.4/jquery-ui.js', function(){
-          bct_load_lib('http://cdnjs.cloudflare.com/ajax/libs/rickshaw/1.4.6/rickshaw.min.js')
-        })
-      })
+  var load_cart_charts = function(){
+    window.dispatchEvent(bearcart_event);
+  };
+
+ function load_bearcart_libs(){
+    console.log('Loading all Bearcart libraries...')
+    $.getScript('http://code.jquery.com/ui/1.10.4/jquery-ui.js', function(){
+      $.getScript('http://cdnjs.cloudflare.com/ajax/libs/rickshaw/1.4.6/rickshaw.min.js', load_cart_charts)
     })
-  }
+  };
 
  if(typeof define === "function" && define.amd){
       if (window['d3'] === undefined){
@@ -41,14 +25,14 @@
           require(["d3"], function(d3){
               console.log('Loading from require.js...')
               window.d3 = d3;
-              load_all_libs();
-              window.dispatchEvent(bearcart_event);
+              load_bearcart_libs();
           });
-      };
+      } else {
+        load_bearcart_libs();
+      }
  }else{
-      console.log('Require.js not found, loading manually...')
-      load_all_libs();
-      window.dispatchEvent(bearcart_event);
+      console.log('Require.js not found!');
+      throw "Require.js not found!"
  };
 
 </script>

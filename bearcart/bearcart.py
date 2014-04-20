@@ -93,6 +93,7 @@ class Chart(object):
         >>>vis = bearcart.Chart(data=df, x_axis=False, legend=False)
 
         '''
+        self.chart_id = '_'.join(['bearcart', uuid4().hex])
 
         self.defaults = {'x_axis': True, 'y_axis': True, 'hover': True,
                          'legend': True, 'slider': True}
@@ -132,6 +133,7 @@ class Chart(object):
                         render_vars = {'x_hover': 'xFormatter: function(x)'
                                        '{return Math.floor(x / 10) * 10}'}
                 render_vars.update({'height': self.height,
+                                    'chart_id': self.chart_id,
                                     'y_axis_id': self.y_axis_id,
                                     'legend_id': self.legend_id,
                                     'slider_id': self.slider_id})
@@ -247,8 +249,6 @@ class Chart(object):
                             js_path='rickshaw.min.js',
                             cs_path='rickshaw.min.css')
         '''
-
-        self.chart_id = '_'.join(['bearcart', uuid4().hex])
 
         self.template_vars.update({'data_path': str(data_path),
                                    'js_path': js_path,

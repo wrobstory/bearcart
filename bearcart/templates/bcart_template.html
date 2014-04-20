@@ -39,25 +39,29 @@
 
 <script>
 
-  {{ palette }}
-
   d3.json('{{ data_path }}', function(error, json) {
 
-    {{ graph }}
+    var render_plot = (function(){
 
-    {{ x_axis }}
+        {{ palette }}
 
-    {{ x_axis_num }}
+        {{ graph }}
 
-    {{ y_axis }}
+        {{ x_axis }}
 
-    {{ hover }}
+        {{ x_axis_num }}
 
-    {{ legend }}
+        {{ y_axis }}
 
-    {{ slider }}
+        {{ hover }}
 
-    graph.render();
+        {{ legend }}
+
+        {{ slider }}
+
+        graph.render();
+
+    })();
 
   });
 
