@@ -10,6 +10,7 @@ from __future__ import division
 import datetime
 import time
 import random
+import unittest
 
 import pandas as pd
 import pandas.io.data as web
@@ -20,7 +21,7 @@ import nose.tools as nt
 import bearcart
 
 
-class testBearcart(object):
+class testBearcart(unittest.TestCase):
     '''Test Bearcart Chart class'''
 
     @classmethod
@@ -39,15 +40,21 @@ class testBearcart(object):
     def test_init(self):
         #Test defaults
         chart = bearcart.Chart(colors={'Data 1': '#25aeb0'})
-        assert chart.height == 400
-        assert chart.width == 750
-        assert chart.renderer == 'line'
-        assert chart.colors == {'Data 1': "'#25aeb0'"}
+        self.assertEqual(chart.height, 400)
+        self.assertEqual(chart.width, 750)
+        self.assertEqual(chart.renderer, 'line')
+        self.assertDictEqual(chart.colors, {'Data 1': "'#25aeb0'"})
         temps = {x.split('.')[0]: x.split('.')[1]
                  for x in self.templates.list_templates()}
         for key, value in chart.template_vars.iteritems():
             template = self.templates.get_template('.'.join([key, temps[key]]))
-            assert value == template.render()
+            kwargs = {
+                'height': 400,
+                'y_axis_id': chart.y_axis_id,
+                'legend_id': chart.legend_id,
+                'slider_id': chart.slider_id
+            }
+            self.assertEqual(value, template.render(kwargs))
 
     def test_params(self):
         #Test params
@@ -90,15 +97,13 @@ class testBearcart(object):
         vars = {'dataset': [{'name': 'AAPL', 'color': 'palette.color()',
                             'data': 'json[0].data', }],
                 'width': 750, 'height': 400, 'render': 'line',
-                'min': "min: 'auto',"}
+                'min': "min: 'auto',", "chart_id": chart.chart_id}
 
         graph_templ = self.templates.get_template('graph.js')
         graph = graph_templ.render(vars)
 
-        import ipdb;ipdb.set_trace()
-
-        assert chart.colors == {'AAPL': 'palette.color()'}
-        assert chart.template_vars['graph'] == graph
+        self.assertDictEqual(chart.colors, {'AAPL': 'palette.color()'})
+        self.assertEqual(chart.template_vars['graph'], graph)
 
 
 
