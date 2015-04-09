@@ -1,2 +1,2 @@
 # -*- coding: utf-8 -*-
-from bearcart import Chart, initialize_notebook
+from .bearcart import Chart, initialize_notebook
