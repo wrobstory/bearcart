@@ -19,6 +19,7 @@ from jinja2 import Environment, FileSystemLoader
 import nose.tools as nt
 
 import bearcart
+from bearcart._compat import iteritems
 
 
 class testBearcart(unittest.TestCase):
@@ -46,7 +47,7 @@ class testBearcart(unittest.TestCase):
         self.assertDictEqual(chart.colors, {'Data 1': "'#25aeb0'"})
         temps = {x.split('.')[0]: x.split('.')[1]
                  for x in self.templates.list_templates()}
-        for key, value in chart.template_vars.iteritems():
+        for key, value in iteritems(chart.template_vars):
             template = self.templates.get_template('.'.join([key, temps[key]]))
             kwargs = {
                 'height': 400,

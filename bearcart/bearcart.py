@@ -15,11 +15,14 @@ import json
 import os
 import time
 from uuid import uuid4
+import sys
 
 from jinja2 import Environment, PackageLoader
 import pandas as pd
 from pkg_resources import resource_string
 import numpy as np
+
+from ._compat import iteritems
 
 ENV = Environment(loader=PackageLoader('bearcart', 'templates'))
 
@@ -103,7 +106,7 @@ class Chart(object):
         # Colors need to be js strings
         if colors:
             self.colors = {key: "'{0}'".format(value)
-                           for key, value in colors.iteritems()}
+                           for key, value in iteritems(colors)}
         else:
             self.colors = None
 
@@ -115,7 +118,7 @@ class Chart(object):
         self.template_vars = {}
 
         # Update defaults for passed kwargs
-        for key, value in kwargs.iteritems():
+        for key, value in iteritems(kwargs):
             self.defaults[key] = value
 
         for id_var in ['y_axis_id', 'legend_id', 'slider_id']:
@@ -123,7 +126,7 @@ class Chart(object):
             setattr(self, id_var, id)
 
         # Get templates for graph elements
-        for att, val in self.defaults.iteritems():
+        for att, val in iteritems(self.defaults):
             render_vars = {}
             if val:
                 if not self.x_axis_time:
@@ -182,7 +185,7 @@ class Chart(object):
                 return value
 
         objectify = lambda dat: [{"x": type_check(x), "y": type_check(y)}
-                                 for x, y in dat.iteritems()]
+                                 for x, y in iteritems(dat)]
 
         self.raw_data = data
         if isinstance(data, pd.Series):
@@ -190,7 +193,7 @@ class Chart(object):
             self.json_data = [{'name': data.name, 'data': objectify(data)}]
         elif isinstance(data, pd.DataFrame):
             self.json_data = [{'name': x[0], 'data': objectify(x[1])}
-                              for x in data.iteritems()]
+                              for x in iteritems(data)]
 
     def _build_graph(self):
         '''Build Rickshaw graph syntax with all data'''
