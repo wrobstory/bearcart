@@ -273,11 +273,12 @@ class Chart(object):
                       separators=(',', ': '))
 
         if js_path:
-            js = resource_string('bearcart', 'rickshaw.min.js')
+            js = resource_string('bearcart', 'rickshaw.min.js').decode("utf-8")
             with open(os.path.join(html_prefix, js_path), 'w') as f:
                 f.write(js)
         if css_path:
             css = resource_string('bearcart', 'rickshaw.min.css')
+            css = css.decode("utf-8")
             with open(os.path.join(html_prefix, css_path), 'w') as f:
                     f.write(css)
 
