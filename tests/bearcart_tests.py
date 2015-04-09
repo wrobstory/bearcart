@@ -66,8 +66,8 @@ class testBearcart(unittest.TestCase):
 
         #Test component removal
         chart = bearcart.Chart(x_axis=False, legend=False)
-        nt.assert_list_equal(chart.template_vars.keys(),
-                             ['y_axis', 'hover', 'slider'])
+        nt.assert_list_equal(sorted(chart.template_vars.keys()),
+                             sorted(['y_axis', 'hover', 'slider']))
 
     def test_data(self):
         #Test data
