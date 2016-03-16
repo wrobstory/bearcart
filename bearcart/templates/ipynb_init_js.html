@@ -11,15 +11,15 @@
 
  function load_bearcart_libs(){
     console.log('Loading all Bearcart libraries...')
-    $.getScript('http://code.jquery.com/ui/1.10.4/jquery-ui.js', function(){
-      $.getScript('http://cdnjs.cloudflare.com/ajax/libs/rickshaw/1.4.6/rickshaw.min.js', load_cart_charts)
+    $.getScript('//code.jquery.com/ui/1.10.4/jquery-ui.js', function(){
+      $.getScript('//cdnjs.cloudflare.com/ajax/libs/rickshaw/1.4.6/rickshaw.min.js', load_cart_charts)
     })
   };
 
  if(typeof define === "function" && define.amd){
       if (window['d3'] === undefined){
           require.config(
-              {paths: {d3: 'http://d3js.org/d3.v3.min'}
+              {paths: {d3: '//d3js.org/d3.v3.min'}
               }
             );
           require(["d3"], function(d3){
